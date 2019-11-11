@@ -41,9 +41,9 @@ public class User implements Serializable {
       return null;
     }
     List<String> rolesAsStrings = new ArrayList();
-    for (Role role : roleList) {
-      rolesAsStrings.add(role.getRoleName());
-    }
+    roleList.forEach((role) -> {
+        rolesAsStrings.add(role.getRoleName());
+      });
     return rolesAsStrings;
   }
 
@@ -57,7 +57,6 @@ public class User implements Serializable {
     this.userName = userName;
     this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt(12));
   }
-
 
   public String getUserName() {
     return userName;
