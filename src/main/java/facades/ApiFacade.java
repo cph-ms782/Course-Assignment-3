@@ -1,5 +1,7 @@
 package facades;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -70,6 +72,8 @@ public class ApiFacade {
         for (String url : URLS) {
             Future<String> future;
             future = workingJack.submit(() -> {
+                
+                JsonObject jsonObject = new JsonParser().parse(getSwappi(url)).getAsJsonObject();
                 String cp = getSwappi(url);
                 return cp;
             });
