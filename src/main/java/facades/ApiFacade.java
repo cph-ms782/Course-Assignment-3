@@ -1,7 +1,5 @@
 package facades;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -16,6 +14,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  *
@@ -56,8 +57,8 @@ public class ApiFacade {
         return jsonStr;
     }
 
-    public String getAllDataInParallelWithQueue() throws ProtocolException, IOException, InterruptedException, ExecutionException {
-        List<String> results = new ArrayList();
+    public List<JsonObject> getAllDataInParallelWithQueue() throws ProtocolException, IOException, InterruptedException, ExecutionException {
+        List<JsonObject> results = new ArrayList();
         List<String> URLS = new ArrayList();
         URLS.add("https://swapi.co/api/people/1/");
         URLS.add("https://swapi.co/api/planets/1/");
@@ -66,26 +67,25 @@ public class ApiFacade {
         URLS.add("https://swapi.co/api/starships/2/");
 //        System.out.println("URLS used: " + URLS.toString());
 
-        Queue<Future<String>> queue = new ArrayBlockingQueue(URLS.size());
+        Queue<Future<JsonObject>> queue = new ArrayBlockingQueue(URLS.size());
 
         ExecutorService workingJack = Executors.newCachedThreadPool();
         for (String url : URLS) {
-            Future<String> future;
+            Future<JsonObject> future;
             future = workingJack.submit(() -> {
-                
                 JsonObject jsonObject = new JsonParser().parse(getSwappi(url)).getAsJsonObject();
-                String cp = getSwappi(url);
-                return cp;
+                return jsonObject;
             });
             queue.add(future);
         }
         while (!queue.isEmpty()) {
-            Future<String> cpo = queue.poll();
+            Future<JsonObject> cpo = queue.poll();
             if (cpo.isDone()) {
                 try {
-                    String hj = null;
-                    hj = cpo.get();
-                    results.add(hj);
+                    JsonObject json = new JsonObject();
+                    json.addProperty("name", cpo.get().get("url").getAsString());
+                    json.addProperty("url", cpo.get().get("url").getAsString());
+                    results.add(json);
                 } catch (InterruptedException interruptedException) {
                     System.out.println("interruptedException: " + interruptedException);
                 } catch (ExecutionException executionException) {
@@ -96,7 +96,7 @@ public class ApiFacade {
             }
         }
         workingJack.shutdown();
-        return String.join(",", results);
+        return results;
     }
 
 }

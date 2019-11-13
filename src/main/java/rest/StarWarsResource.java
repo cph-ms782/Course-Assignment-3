@@ -1,10 +1,11 @@
 package rest;
 
+import com.google.gson.JsonObject;
 import facades.ApiFacade;
 import java.io.IOException;
 import java.net.ProtocolException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -28,10 +29,10 @@ public class StarWarsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("data")
-    @RolesAllowed({"user", "admin"})
-    public String getData() throws IOException, ProtocolException, ExecutionException, InterruptedException {
+//    @RolesAllowed({"user", "admin"})
+    public List<JsonObject> getData() throws IOException, ProtocolException, ExecutionException, InterruptedException {
 //        String person = getSwappi("person/1");
-        String data = facade.getAllDataInParallelWithQueue();
+        List<JsonObject> data = facade.getAllDataInParallelWithQueue();
         return data;
     }
 

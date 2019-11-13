@@ -27,7 +27,7 @@
 
 `export PW="YOUR_DB_PASSWORD"`
 
-`export CONNECTION_STR="jdbc:mysql://localhost:3306/startcode"
+`export CONNECTION_XXXX="jdbc:mysql://localhost:3306/db_table"
 `
 - Save the file, and restart Tomcat `sudo systemcctl restart tomcat`
 - Back in a LOCAL terminal (git bash for Windows Users), in the root of the project, type (add your own password):
