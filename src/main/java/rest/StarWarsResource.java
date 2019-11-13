@@ -1,6 +1,6 @@
 package rest;
 
-import com.google.gson.JsonObject;
+import dto.StarWarsDTO;
 import facades.ApiFacade;
 import java.io.IOException;
 import java.net.ProtocolException;
@@ -30,9 +30,17 @@ public class StarWarsResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("data")
 //    @RolesAllowed({"user", "admin"})
-    public List<JsonObject> getData() throws IOException, ProtocolException, ExecutionException, InterruptedException {
-//        String person = getSwappi("person/1");
-        List<JsonObject> data = facade.getAllDataInParallelWithQueue();
+    public List<String> getData() throws IOException, ProtocolException, ExecutionException, InterruptedException {
+        List<String> data = facade.getAllDataInParallelWithQueue();
+        return data;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("datadto")
+//    @RolesAllowed({"user", "admin"})
+    public List<StarWarsDTO> getDataDTO() throws IOException, ProtocolException, ExecutionException, InterruptedException {
+        List<StarWarsDTO> data = facade.getAllDataInParallelWithQueueAndDTO();
         return data;
     }
 
