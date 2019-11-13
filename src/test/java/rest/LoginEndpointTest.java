@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import utils.EMF_Creator;
 
-@Disabled
+//@Disabled
 public class LoginEndpointTest {
 
     private static final int SERVER_PORT = 7777;
@@ -111,13 +111,13 @@ public class LoginEndpointTest {
         securityToken = null;
     }
 
-    @Test
+//    @Test
     public void serverIsRunning() {
         System.out.println("Testing is server UP");
         given().when().get("/info").then().statusCode(200);
     }
 
-    @Test
+//    @Test
     public void testRestNoAuthenticationRequired() {
         given()
                 .contentType("application/json")
@@ -127,7 +127,7 @@ public class LoginEndpointTest {
                 .body("msg", equalTo("Hello anonymous"));
     }
 
-    @Test
+//    @Test
     public void testRestForAdmin() {
         login("admin", "test");
         given()
@@ -140,7 +140,7 @@ public class LoginEndpointTest {
                 .body("msg", equalTo("Hello to (admin) User: admin"));
     }
 
-    @Test
+//    @Test
     public void testRestForUser() {
         login("user", "test");
         given()
@@ -152,7 +152,7 @@ public class LoginEndpointTest {
                 .body("msg", equalTo("Hello to User: user"));
     }
 
-    @Test
+//    @Test
     public void testAutorizedUserCannotAccesAdminPage() {
         login("user", "test");
         given()
@@ -163,7 +163,7 @@ public class LoginEndpointTest {
                 .statusCode(401);
     }
 
-    @Test
+//    @Test
     public void testAutorizedAdminCannotAccesUserPage() {
         login("admin", "test");
         given()
@@ -174,7 +174,7 @@ public class LoginEndpointTest {
                 .statusCode(401);
     }
 
-    @Test
+//    @Test
     public void testRestForMultiRole1() {
         login("user_admin", "test");
         given()
@@ -187,7 +187,7 @@ public class LoginEndpointTest {
                 .body("msg", equalTo("Hello to (admin) User: user_admin"));
     }
 
-    @Test
+//    @Test
     public void testRestForMultiRole2() {
         login("user_admin", "test");
         given()
@@ -199,7 +199,7 @@ public class LoginEndpointTest {
                 .body("msg", equalTo("Hello to User: user_admin"));
     }
 
-    @Test
+//    @Test
     public void userNotAuthenticated() {
         logOut();
         given()
@@ -211,7 +211,7 @@ public class LoginEndpointTest {
                 .body("message", equalTo("Not authenticated - do login"));
     }
 
-    @Test
+//    @Test
     public void adminNotAuthenticated() {
         logOut();
         given()
