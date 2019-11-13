@@ -66,4 +66,14 @@ public class InfoResource {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("fill")
+    public String fillDB() {
+        utils.SetupTestUsers setup = new utils.SetupTestUsers();
+        setup.fill();
+        return "{\"msg\": \"DB filled\"}";
+    }
+    
 }
