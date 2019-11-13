@@ -8,18 +8,18 @@ Dev
 
 ### endpoints
 
-**All**
-/api/info
-/api/info/all
-/api/sw
+**All**  
+/api/info  
+/api/info/all  
+/api/sw  
 /api/login
 
-**User**
-/api/sw/data
+**User**  
+/api/sw/data  
 /api/info/user
 
-**Admin**
-/api/sw/data
-/api/info/user
-/api/info/admin
+**Admin**  
+/api/sw/data  
+/api/info/user  
+/api/info/admin  
 /api/info/fill
