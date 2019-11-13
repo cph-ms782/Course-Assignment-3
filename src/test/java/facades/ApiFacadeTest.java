@@ -23,15 +23,15 @@ public class ApiFacadeTest {
     }
 
     //@BeforeAll
-    public static void setUpClass() {
-        emf = EMF_Creator.createEntityManagerFactory(
-                "pu",
-                "jdbc:mysql://localhost:3307/ca3_test",
-                "dev",
-                "ax2",
-                EMF_Creator.Strategy.CREATE);
-        facade = ApiFacade.getApiFacade(emf);
-    }
+//    public static void setUpClass() {
+//        emf = EMF_Creator.createEntityManagerFactory(
+//                "pu",
+//                "jdbc:mysql://localhost:3307/ca3_test",
+//                "dev",
+//                "ax2",
+//                EMF_Creator.Strategy.CREATE);
+//        facade = ApiFacade.getApiFacade(emf);
+//    }
 
     /*   **** HINT **** 
         A better way to handle configuration values, compared to the UNUSED example above, is to store those values
@@ -39,38 +39,38 @@ public class ApiFacadeTest {
         The file config.properties and the corresponding helper class utils.Settings is added just to do that. 
         See below for how to use these files. This is our RECOMENDED strategy
      */
-    @BeforeAll
-    public static void setUpClassV2() {
-       emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
-       facade = ApiFacade.getApiFacade(emf);
-    }
+//    @BeforeAll
+//    public static void setUpClassV2() {
+//       emf = EMF_Creator.createEntityManagerFactory(DbSelector.TEST,Strategy.DROP_AND_CREATE);
+//       facade = ApiFacade.getApiFacade(emf);
+//    }
 
-    @AfterAll
-    public static void tearDownClass() {
-//        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
-    }
+//    @AfterAll
+//    public static void tearDownClass() {
+////        Clean up database after test is done or use a persistence unit with drop-and-create to start up clean on every test
+//    }
 
     // Setup the DataBase in a known state BEFORE EACH TEST
     //TODO -- Make sure to change the script below to use YOUR OWN entity class
-    @BeforeEach
-    public void setUp() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-            em.persist(new RenameMe("Some txt", "More text"));
-            em.persist(new RenameMe("aaa", "bbb"));
+//    @BeforeEach
+//    public void setUp() {
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
+//            em.persist(new RenameMe("Some txt", "More text"));
+//            em.persist(new RenameMe("aaa", "bbb"));
+//
+//            em.getTransaction().commit();
+//        } finally {
+//            em.close();
+//        }
+//    }
 
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
-    }
-
-    @AfterEach
-    public void tearDown() {
-//        Remove any data after each test was run
-    }
+//    @AfterEach
+//    public void tearDown() {
+////        Remove any data after each test was run
+//    }
 
     // TODO: Delete or change this method 
 //    @Test
