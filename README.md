@@ -6,6 +6,20 @@ Dev
 
 # Course-Assignment-3
 
-endpoint
+### endpoints
 
-/SITE-URL/api/sw/data
+**All**
+/api/info
+/api/info/all
+/api/sw
+/api/login
+
+**User**
+/api/sw/data
+/api/info/user
+
+**Admin**
+/api/sw/data
+/api/info/user
+/api/info/admin
+/api/info/fill

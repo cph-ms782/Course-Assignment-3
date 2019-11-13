@@ -17,7 +17,6 @@ import java.util.concurrent.Future;
 
 /**
  *
- * Rename Class to a relevant name Add add relevant facade methods
  */
 public class ApiFacade {
 
