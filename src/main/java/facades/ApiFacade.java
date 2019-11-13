@@ -1,5 +1,6 @@
 package facades;
 
+import com.google.gson.JsonArray;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -14,9 +15,11 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import dto.StarWarsDTO;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -56,16 +59,59 @@ public class ApiFacade {
         }
         return jsonStr;
     }
-
-    public List<JsonObject> getAllDataInParallelWithQueue() throws ProtocolException, IOException, InterruptedException, ExecutionException {
-        List<JsonObject> results = new ArrayList();
+    
+    public List<StarWarsDTO> getAllDataInParallelWithQueueAndDTO() throws ProtocolException, IOException, InterruptedException, ExecutionException {
+        List<StarWarsDTO> results = new ArrayList();
         List<String> URLS = new ArrayList();
         URLS.add("https://swapi.co/api/people/1/");
         URLS.add("https://swapi.co/api/planets/1/");
         URLS.add("https://swapi.co/api/vehicles/7/");
         URLS.add("https://swapi.co/api/films/1/");
         URLS.add("https://swapi.co/api/starships/2/");
-//        System.out.println("URLS used: " + URLS.toString());
+
+        Queue<Future<JsonObject>> queue = new ArrayBlockingQueue(URLS.size());
+
+        ExecutorService workingJack = Executors.newCachedThreadPool();
+        for (String url : URLS) {
+            Future<JsonObject> future;
+            future = workingJack.submit(() -> {
+                JsonObject jsonObject = new JsonParser().parse(getSwappi(url)).getAsJsonObject();
+                return jsonObject;
+            });
+            queue.add(future);
+        }
+        while (!queue.isEmpty()) {
+            Future<JsonObject> cpo = queue.poll();
+            if (cpo.isDone()) {
+                try {
+                    results.add(new StarWarsDTO(
+                            cpo.get().get("name").getAsString(),
+                            cpo.get().get("url").getAsString()
+                    ));
+
+                } catch (InterruptedException interruptedException) {
+                    System.out.println("interruptedException: " + interruptedException);
+                } catch (ExecutionException executionException) {
+                    System.out.println("executionException: " + executionException);
+                } catch (NullPointerException ex) {
+                    System.out.println("NullPointerException: " + ex);
+                }
+            } else {
+                queue.add(cpo);
+            }
+        }
+        workingJack.shutdown();
+        return results;
+    }
+    
+    public List<String> getAllDataInParallelWithQueue() throws ProtocolException, IOException, InterruptedException, ExecutionException {
+        List<String> results = new ArrayList();
+        List<String> URLS = new ArrayList();
+        URLS.add("https://swapi.co/api/people/1/");
+        URLS.add("https://swapi.co/api/planets/1/");
+        URLS.add("https://swapi.co/api/vehicles/7/");
+        URLS.add("https://swapi.co/api/films/1/");
+        URLS.add("https://swapi.co/api/starships/2/");
 
         Queue<Future<JsonObject>> queue = new ArrayBlockingQueue(URLS.size());
 
@@ -83,13 +129,15 @@ public class ApiFacade {
             if (cpo.isDone()) {
                 try {
                     JsonObject json = new JsonObject();
-                    json.addProperty("name", cpo.get().get("url").getAsString());
+                    json.addProperty("name", cpo.get().get("name").getAsString());
                     json.addProperty("url", cpo.get().get("url").getAsString());
-                    results.add(json);
+                    results.add(json.toString());
                 } catch (InterruptedException interruptedException) {
                     System.out.println("interruptedException: " + interruptedException);
                 } catch (ExecutionException executionException) {
                     System.out.println("executionException: " + executionException);
+                } catch (NullPointerException ex) {
+                    System.out.println("NullPointerException: " + ex);
                 }
             } else {
                 queue.add(cpo);
