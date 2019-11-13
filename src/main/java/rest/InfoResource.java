@@ -1,6 +1,5 @@
 package rest;
 
-import com.google.gson.Gson;
 import entities.User;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -19,7 +18,7 @@ import utils.EMF_Creator;
  * @author lam@cphbusiness.dk
  */
 @Path("info")
-public class DemoResource {
+public class InfoResource {
 
     private static EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory(EMF_Creator.DbSelector.DEV, EMF_Creator.Strategy.CREATE);
 
@@ -53,7 +52,7 @@ public class DemoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("user")
-    @RolesAllowed("user")
+    @RolesAllowed({"user", "admin"})
     public String getFromUser() {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
@@ -67,4 +66,15 @@ public class DemoResource {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("fill")
+    @RolesAllowed("admin")
+    public String fillDB() {
+        utils.SetupTestUsers setup = new utils.SetupTestUsers();
+        setup.fill();
+        return "{\"msg\": \"DB filled\"}";
+    }
+    
 }
