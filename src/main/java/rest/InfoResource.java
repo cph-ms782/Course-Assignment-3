@@ -52,7 +52,7 @@ public class InfoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("user")
-//    @RolesAllowed({"user", "admin"})
+    @RolesAllowed({"user", "admin"})
     public String getFromUser() {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to User: " + thisuser + "\"}";
@@ -61,7 +61,7 @@ public class InfoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("admin")
-//    @RolesAllowed("admin")
+    @RolesAllowed("admin")
     public String getFromAdmin() {
         String thisuser = securityContext.getUserPrincipal().getName();
         return "{\"msg\": \"Hello to (admin) User: " + thisuser + "\"}";
@@ -70,7 +70,7 @@ public class InfoResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("fill")
-//    @RolesAllowed("admin")
+    @RolesAllowed("admin")
     public String fillDB() {
         utils.SetupTestUsers setup = new utils.SetupTestUsers();
         setup.fill();

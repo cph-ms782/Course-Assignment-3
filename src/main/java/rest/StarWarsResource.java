@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.ProtocolException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -19,7 +20,6 @@ public class StarWarsResource {
     
     ApiFacade facade = ApiFacade.getApiFacade();
 
-//    ApiFacade facade = ApiFacade.getApiFacade(EMF);
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getInfoForAll() {
@@ -29,7 +29,7 @@ public class StarWarsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("data")
-//    @RolesAllowed({"user", "admin"})
+    @RolesAllowed({"user", "admin"})
     public List<String> getData() throws IOException, ProtocolException, ExecutionException, InterruptedException {
         List<String> data = facade.getAllDataInParallelWithQueue();
         return data;
@@ -38,7 +38,7 @@ public class StarWarsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("datadto")
-//    @RolesAllowed({"user", "admin"})
+    @RolesAllowed({"user", "admin"})
     public List<StarWarsDTO> getDataDTO() throws IOException, ProtocolException, ExecutionException, InterruptedException {
         List<StarWarsDTO> data = facade.getAllDataInParallelWithQueueAndDTO();
         return data;
