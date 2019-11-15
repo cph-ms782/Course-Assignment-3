@@ -179,9 +179,9 @@
             </plugin>          
             
             <!--This is used to enable @BeforeAll etc used in jUnit 5 -->
-            <plugin>
+<!--            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
+                <version>3.0.0-M3</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.junit.platform</groupId>
@@ -194,7 +194,7 @@
                         <version>5.5.2</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>-->
            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
