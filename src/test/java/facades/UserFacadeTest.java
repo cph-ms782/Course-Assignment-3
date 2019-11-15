@@ -83,7 +83,7 @@ public class UserFacadeTest {
     /**
      * Test of getVerifiedUser method, of class UserFacade.
      */
-    @Test
+//    @Test
     public void testGetVerifiedUser() throws Exception {
         System.out.println("getVerifiedUser");
         String username = "user";
