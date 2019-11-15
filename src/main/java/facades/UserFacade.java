@@ -28,14 +28,22 @@ public class UserFacade {
         return instance;
     }
     
-    public User getVerifiedUser(String username, String password) throws AuthenticationException {
+    public static String test () {
+        System.out.println("Testing facade");
+        return "Testing facade";
+    }
+    
+    
+    
+    public User getVerifiedUser(String username, String password) throws NullPointerException, AuthenticationException {
         EntityManager em = emf.createEntityManager();
-        User user;
+        User user=null;
         try {
             user = em.find(User.class, username);
             if (user == null || !user.verifyPassword(password)) {
                 throw new AuthenticationException("Invalid user name or password");
             }
+        }catch(NullPointerException ex){
         } finally {
             em.close();
         }
