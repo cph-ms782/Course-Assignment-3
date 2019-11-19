@@ -84,6 +84,8 @@ public class ApiFacade {
             Future<JsonObject> cpo = queue.poll();
             if (cpo.isDone()) {
                 try {
+                    // CHANGE WHEN USING OTHER API
+                    // USE OTHER DTO FOR WHAT YOU NEED TO EXTRACT
                     results.add(new StarWarsDTO(
                             cpo.get().get("name").getAsString(),
                             cpo.get().get("url").getAsString()
